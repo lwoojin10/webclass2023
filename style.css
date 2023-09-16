@@ -1,0 +1,30 @@
+/* css 코드*/
+@font-face {
+    font-family: 'Hangeuljaemin4-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Hangeuljaemin4-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Hangeuljaemin4-Regular';
+    background-image: url('./bg.jpg');
+    background-size: cover;
+}
+
+#name-modal{
+    width: 600px;
+    height:300px;
+    background-color: #FFC7EA;
+    border-radius: 30px;
+    /* name-modal 중앙 정렬 시키기*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;/*수직정렬*/
+    align-items: center;/*수평정렬*/
+    /*모달창을 중알 정렬 시키기*/
+    position:absolute; /*전체 화면을 기준으로 중앙정렬*/
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);/*위치를 옮김*/
+}
