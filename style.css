@@ -28,3 +28,36 @@ body {
     left: 50%;
     transform: translate(-50%,-50%);/*위치를 옮김*/
 }
+.hide {
+    display:none !important;
+}
+
+.show{
+    display: block;
+}
+
+#contents{
+    padding: 80px 50px;
+}
+
+#box-container{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 100px;
+}
+#box-container img:hover{
+    transform: scale(1.2);
+    cursor:pointer;
+}
+
+#result-message{
+    width: 50%;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.686);
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 22.5px;
+    margin-top: 60px;
+    text-align: center;
+}
