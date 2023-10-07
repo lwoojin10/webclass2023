@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--자바스크립트로 태그 스타일링하기-->
+    <h1 id="myh1">이것은 제목 태그입니다.1</h1>
+    <h1>이것은 제목 태그입니다.2</h1>
+    <h1>이것은 제목 태그입니다.3</h1>
+    <button id="bg">바탕색 바꾸기</button>
+    <script>
+        //1.script 태그안에 자바스크립트 코드를 작성할 수 있음!!
+        const h1= document.getElementsByTagName("h1")
+        console.log(h1)
+        h1[0].style.color="blue"
+        h1[0].innerText="이것은 자바스크립트로 만든 제목입니다."
+        //2.요소 생성하기
+        const h2=document.createElement("h2")
+        h2.innerText="이것은 자바스크립트로 생선된 요소입니다."
+        h2.style.backgroundColor="yellow"
+        //부모요소에 접근하여 해당요소를 붙어야한다.
+        document.body.appendChild(h2)
+
+        const a = document.createElement("a")
+        a.href="http://www.naver.com"
+        a.innerText="네이버로"
+        document.body.appendChild(a)
+
+        //3.요소 삭제하기
+        const myh1=document.getElementById("myh1")
+        //myh1.remove()
+        document.body.removeChild(myh1)
+        //4.이벤트
+        const btn=document.getElementById("bg")
+        btn.addEventListener('click',function(){
+            document.body.style.backgroundColor='purple'
+        })
+
+    </script>
+</body>
+</html>

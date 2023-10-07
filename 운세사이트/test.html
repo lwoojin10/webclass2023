@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포춘쿠키 사이트</title>
+    <link rel="stylesheet" href="./style.css">
+    <!--css 파일 연결-->
+</head>
+<body>
+  <div id="container">
+    <div id="name-modal">
+        <h3>이름을 입력해주세요</h3>
+        <input type="text" name="" id="username">
+        <input type="button" value="확인" onclick="getUsername()">
+    </div>
+    <div id="contents" class="hide">
+        <div class="greeting">
+            <h2><span id="name"></span>님 환영합니다.</h2>
+            <h2>오늘의 운세를 확인하기 위해 포춘쿠키를 선택해주세요.</h2>
+        </div>
+        <!--포춘쿠키 이미지 넣기-->
+        <div id="box-container">
+          <div class="box">
+            <img 
+              src="./fortune-cookie-before.png" 
+              alt="포춘쿠키"
+              onclick="selectCookie(1)">
+          </div>
+          <div class="box">
+            <img 
+              src="./fortune-cookie-before.png" 
+              alt="포춘쿠키"
+              onclick="selectCookie(2)">
+          </div>
+          <div class="box">
+            <img 
+              src="./fortune-cookie-before.png"
+              alt="포춘쿠키"
+              onclick="selectCookie(3)">
+          </div>
+          
+        </div>
+        <!--포춘쿠키 운세 결과 넣어주기-->
+        <div id="result-message">운세 결과 창 입니다.</div>
+    </div>
+  </div>
+  <script>
+    function getUsername(){
+      const input=document.getElementById("username")
+      console.log(input.value)
+      const username=input.value.toString()
+      if(username.length==0){
+        window.alert('이름을 입력해 주세요')
+      } else{
+        const span=document.getElementById("name")
+        span.innerText=username
+        const modal=document.getElementById("name-modal")
+        const contents=document.getElementById("contents")
+        modal.classList.add('hide')
+        contents.classList.remove('hide')
+
+      }
+    }
+
+    const selected=[false,false,false] 
+    function selectCookie(number) {
+      if(selected[number-1]==false) {
+        const target=event.target
+      target.src="./fortune-cookie-after.png"
+      selected[number-1]=true
+      //운세 메세지 보여주기
+      showMassage(  )
+      }
+      else {
+        window.alert('이미 선택된 쿠키입니다!!')
+      }
+    }
+    //운세 결과 보여주기
+    const messages = [
+      'Perseverance is failing nineteen times and succeeding the twenieth(끈기란 열아홉번 실패하고 스무번 성공하는 것이다)',
+      'Shallow men believe in luck, Strong men believe in cause and effect(얕은 사람은 행운을 믿고 강한 사람은 원인과 결과를 믿는다)',
+      'Slow down and enjoy life(속도를 늦추고 인생을 즐겨라)',
+      '자신의 능력을 완전히 신뢰하기만 한다면 무슨 일이든 할수 있다.',
+      '큰 목표를 이루고 싶으면 허락을 구하지 마라',
+      '창조적인 삶을 살려면 내가 틀릴지도 모른다는 공포를 버려야 한다'
+    ]
+    function showMassage() {
+      const result=document.getElementById('result-message')
+      let idx=getRandomInt(0,messages.length)
+      result.innerText=messages[idx]
+    }
+    //참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+    }
+
+  </script>
+</body>
+</html> 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도전 사이트</title>
+    <link rel="stylesheet" href="./style.css">
+    <!--css 파일 연결-->
+</head>
+<body>
+  <div id="container">
+    <div id="name-modal">
+        <h3>이름을 입력해주세요</h3>
+        <input type="text" name="" id="username">
+        <input type="button" value="확인" onclick="getUsername()">
+    </div>
+    <div id="contents" class="hide">
+        <div class="greeting">
+            <h2><span id="name"></span>님 환영합니다.</h2>
+            <h2>포기 하고 싶을 때 하기 좋은 행동 2개 뽑기</h2>
+        </div>
+        <!--포춘쿠키 이미지 넣기-->
+        <div id="box-container">
+          <div class="box">
+            <img 
+              src="./box-close.png" 
+              alt="상자"
+              onclick="selectCookie(1)">
+          </div>
+          <div class="box">
+            <img 
+              src="./box-close.png" 
+              alt="상자"
+              onclick="selectCookie(2)">
+          </div>
+        </div>
+        <!--포춘쿠키 운세 결과 넣어주기-->
+        <div id="result-message">뽑기 결과 창 입니다.</div>
+    </div>
+  </div>
+  <script>
+    function getUsername(){
+      const input=document.getElementById("username")
+      console.log(input.value)
+      const username=input.value.toString()
+      if(username.length==0){
+        window.alert('이름을 입력해 주세요')
+      } else{
+        const span=document.getElementById("name")
+        span.innerText=username
+        const modal=document.getElementById("name-modal")
+        const contents=document.getElementById("contents")
+        modal.classList.add('hide')
+        contents.classList.remove('hide')
+
+      }
+    }
+
+    const selected=[false,false,false] 
+    function selectCookie(number) {
+      if(selected[number-1]==false) {
+        const target=event.target
+      target.src="./box-open (2).png"
+      selected[number-1]=true
+      //운세 메세지 보여주기
+      showMassage( )
+      }
+      else {
+        window.alert('이미 선택된 행동입니다!!')
+      }
+    }
+    //운세 결과 보여주기
+    const messages = [
+      '운동하기:몸에 힘이 모두 빠질 정도로 뛰어보면 힘든 생각조차 들지 않게 될거에요',
+      '잠자기: 잠을 자며 충분한 휴식을 취하며 다시 한번더!',
+      '음악감상: 음악을 들으며 마음의 안정을 취해 행복하게 해볼까요?',
+      '밥먹기: 금강산도 식후경인것처럼 밥을 먹고 든든한 마음으로 다시 도전해 봅시다!',
+      '전화하기:지금 포기하고 싶은 마음을 가장 사랑하는 사람에게 전화해 솔직히 털어놓아 보면 어떨까요?',
+      '애완동물 키워보기:언제나 당신의 곁에 있다는 것을 느끼며 포기하지 말아봐요!',
+      '적어보기:힘든 것들을 생각하기보다 자신에게 행복을 주는 것들을 적어보는 게 어떨까요?',
+      '봉사활동하기:남을 돕는다는 것 하나로 행복해질 수 있을 거에요.',
+      '눈물 흘리기: 때론 참지말고 울어보세요 당신은 울 자격이 있는 사람이에요.',
+      '친구 만나기: 친구를 만나 그 일에 대해 모두 잊고 노는 것에만 집중해보아요.'
+    ]
+    function showMassage() {
+      const result=document.getElementById('result-message')
+      let idx=getRandomInt(0,messages.length)
+      result.innerText=messages[idx]
+    }
+    //참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+    }
+
+  </script>
+</body>
+</html> 
