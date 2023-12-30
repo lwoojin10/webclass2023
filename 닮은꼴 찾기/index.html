@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>닮은 연예인 찾기</title>
+</head>
+<body>
+    <div id="container">
+
+        <h1>나와 닮은 연예인은?</h1>
+        <button id="start-btn" class="btn"  type="button" onclick="init()">시작하기</button>
+        <div id="webcam-container"></div>
+        <div id="label-container"></div>
+        <button id="check-btn" class="btn hide"  type="button" onclick="showResult()">확인하기</button>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+<script type="text/javascript">
+    // More API functions here:
+    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+    // the link to your model provided by Teachable Machine export panel
+    const URL = "./model/";
+
+    let model, webcam, labelContainer, maxPredictions;
+
+    let high_pre=0, high_label;
+
+    // Load the image model and setup the webcam
+    async function init() {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+
+        // load the model and metadata
+        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+        // or files from your local hard drive
+        // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+
+        // Convenience function to setup a webcam
+        const flip = true; // whether to flip the webcam
+        webcam = new tmImage.Webcam(350, 350, flip); // width, height, flip
+        await webcam.setup(); // request access to the webcam
+        await webcam.play();
+        window.requestAnimationFrame(loop);
+
+        // append elements to the DOM
+        document.getElementById("webcam-container").appendChild(webcam.canvas);
+        document.getElementById("start-btn").classList.add('hide')
+        document.getElementById("check-btn").classList.remove('hide')
+        //labelContainer = document.getElementById("label-container");
+        //for (let i = 0; i < maxPredictions; i++) { // and class labels
+            //labelContainer.appendChild(document.createElement("div"));
+        //} 
+    }
+
+    async function loop() {
+        webcam.update(); // update the webcam frame
+        await predict();
+        window.requestAnimationFrame(loop);
+    }
+
+    // run the webcam image through the image model
+    async function predict() {
+        // predict can take in an image, video or canvas html element
+        const prediction = await model.predict(webcam.canvas);
+        //console.log(prediction[0].probability)
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction =
+                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            //labelContainer.childNodes[i].innerHTML = classPrediction;
+
+            if (high_pre<prediction[i].probability) {
+                high_pre=prediction[i].probability
+                high_label=prediction[i].className
+            }
+        }
+    }
+
+    function showResult() {
+        document.getElementById('check-btn').classList.add('hide')
+        webcam.stop();
+        document.getElementById('webcam-container').classList.add('hide')
+        const result = `당신의 연예인 ${high_pre.toFixed(2)*100}%로 ${high_label}을 가장 닮았습니다.`
+        const h1=document.querySelector('#container > h1')
+        h1.innerHTML=result
+
+        const img = document.createElement('img')
+        img.src=`./image/${high_label}.png`
+        img.width="300"
+        img.height="300"
+
+        document.getElementById("label-container").appendChild(img)
+    }
+</script>
+
+</body>
+</html>
